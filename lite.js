@@ -3,57 +3,57 @@ c=document.getElementById("g");
 w=c.getContext("2d");
 document.addEventListener("keydown",p);
 setInterval(g,66);
-px=py=10;
-gs=tc=20;
-ax=ay=15;
-xv=yv=0;
-tr=[];
+D=A=10;
+T=C=20;
+X=Y=15;
+V=B=0;
+U=[];
 t = 5;
 function g() {
-	px+=xv;
-	py+=yv;
-	if(px<0) {
-		px= tc-1;
+	D+=V;
+	A+=B;
+	if(D<0) {
+		D= C-1;
 	}
-	if(px>tc-1) {
-		px= 0;
+	if(D>C-1) {
+		D= 0;
 	}
-	if(py<0) {
-		py= tc-1;
+	if(A<0) {
+		A= C-1;
 	}
-	if(py>tc-1) {
-		py= 0;
+	if(A>C-1) {
+		A= 0;
 	}
 	w.fillStyle="green";
 	w.fillRect(0,0,400,400);
 	w.fillStyle="red";
-	for(var i=0;i<tr.length;i++) {
-		w.fillRect(tr[i].x*gs,tr[i].y*gs,gs-2,gs-2);
-		if(tr[i].x==px && tr[i].y==py) {
+	for(var i=0;i<U.length;i++) {
+		w.fillRect(U[i].x*T,U[i].y*T,T-2,T-2);
+		if(U[i].x==D && U[i].y==A) {
 			t = 5;
 		}
 	}
-	tr.push({x:px,y:py});
-	while(tr.length>t) {
-		tr.shift();
+	U.push({x:D,y:A});
+	while(U.length>t) {
+		U.shift();
 	}
-	if(ax==px && ay==py) {
+	if(X==D && Y==A) {
 		t++;
-		ax=Math.floor(Math.random()*tc);
-		ay=Math.floor(Math.random()*tc);
+		X=Math.floor(Math.random()*C);
+		Y=Math.floor(Math.random()*C);
 	}
 	w.fillStyle="#fff";
-	w.fillRect(ax*gs,ay*gs,gs-2,gs-2);
+	w.fillRect(X*T,Y*T,T-2,T-2);
 }
 function p(e) {
-	var t = e.keyCode;
-	if (t === 37) {
-		xv=-1;yv=0;
-	} else if(t === 38) {
-		xv=0;yv=-1;
-	} else if (t === 39) {
-		xv=1;yv=0;
-	} else if (t === 40) {
-		xv=0;yv=1;
+	var k = e.keyCode;
+	if (k === 37) {
+		V=-1;B=0;
+	} else if(k === 38) {
+		V=0;B=-1;
+	} else if (k === 39) {
+		V=1;B=0;
+	} else if (k === 40) {
+		V=0;B=1;
 	}
 }
