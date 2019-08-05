@@ -59,7 +59,7 @@ function init() {
 
 	// Draw all nodes on canvas
 	for (var i = 0; i < dist.length; i++) {
-		drawNodeOnCanvas(ctx, dist[i], i == 0 ? "orange" : "white");
+		drawNodeOnCanvas(ctx, dist[i], i === 0 ? "orange" : "white");
 	}
 
 	// Compute the shortest path
@@ -70,7 +70,7 @@ function init() {
 
 	// Output
 	createText("Shortest path distance: " + bestPath.distance);
-	createText("Shortest path: " + bestPath.key.split("-").map(node => parseInt(node)+1).join(", "));
+	createText("Shortest path: " + bestPath.key.split("-").map(node => parseInt(node,10)+1).join(", "));
 
 	// Track time
 	var endTime = Date.now();
@@ -87,12 +87,12 @@ function init() {
  * Given the canvas context and the path as a string (Ex: '0-1-2-3-0'), draw the path between nodes
  */
 function drawPath(ctx, path, colors={}) {
-  var path = path.split("-");
+  path = path.split("-");
 
   for (var i = 0; i < path.length; i++) {
     // The points where we should draw the line
-    var p1 = parseInt(path[i]);
-    var p2 = parseInt(path[(i+1)%path.length]);
+    var p1 = parseInt(path[i], 10);
+    var p2 = parseInt(path[(i+1)%path.length],10);
 
     // Draw the line
     ctx.beginPath();
@@ -164,7 +164,7 @@ function getShortestPath(ctx) {
     // Compute all possible paths with the new node
     // This will create an object with the new node in every possible configuration
     // and the cost to add the node in each configuration
-    for (var i=1; i<bestPathArr.length; i++) {
+    for (let i=1; i<bestPathArr.length; i++) {
       var bestPathArrClone = bestPathArr.slice();
       // Insert the node at position i
       bestPathArrClone.splice(i, 0, usedNodes[usedNodes.length-1].toString());
@@ -183,7 +183,7 @@ function getShortestPath(ctx) {
   return {
     key: bestPath,
     distance: bestPath.split("-").slice(1)
-        .reduce((d, n, i) => d += distances[parseInt(newBasePath.split("-")[i])][parseInt(n)], 0)
+        .reduce((d, n, i) => d += distances[parseInt(newBasePath.split("-")[i],10)][parseInt(n,10)], 0)
   };
 }
 
@@ -207,7 +207,7 @@ function animateMap(ctx, path, i) {
 
   // Draw all nodes on canvas
   for (var j = 0; j < dist.length; j++) {
-    drawNodeOnCanvas(ctx, dist[j], j == 0 ? "orange" : "white");
+    drawNodeOnCanvas(ctx, dist[j], j === 0 ? "orange" : "white");
   }
 
   // Draw the bast path with one yellow connection
