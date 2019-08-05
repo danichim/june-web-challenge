@@ -12,81 +12,75 @@ const CANVAS_WIDTH_INNER_START = 50;
 const CANVAS_HEIGHT = 600;
 const CANVAS_HEIGHT_INNER_START = 550;
 
-var dist = [
-  [0,178], //start point , 1
-  [270,182], //   2
-  [426,83], //    3
-  [425,301], //   4
-  [72,38],  //    5
-  [146,500],  //  6
-  [426,489],  //  7
-  [443,470],  //  8
-  [356,61],   //  9
-  [160,498],  // 10
-  [124,265],  // 11
-  [304,195],  // 12
-  [378,169],  // 13
-  [159,212],  // 14
-  [28,235]    // 15
-];
-
-// Generate n random points
-// dist = [];
-// for (var i=0; i<100; i++) {
-//   dist.push([parseInt(Math.random()*500), parseInt(Math.random()*500)]);
-// }
-
 window.onload = function() {
-  var startTime = Date.now();
+  // Parse JSON from File
+	(function readJson(){
+		fetch('nodes.json')
+		.then(response => {
+				if (!response.ok) {
+						throw new Error("HTTP error " + response.status);
+				}
+				return response.json();
+		})
+		.then(json => {
+			window.dist = json;
+			init();
+		})
+		.catch(function () {
+				this.dataError = true;
+		})
+	})();
+}
 
-  // Draw canvas
-  var canvas = document.createElement('canvas');
-  canvas.width = CANVAS_WIDTH;
-  canvas.height = CANVAS_HEIGHT;
+function init() {
+	var startTime = Date.now();
 
-  // Place the canvas inside a div so we can center it
-  var div = document.createElement("div");
-  div.style.textAlign = "center";
-  div.appendChild(canvas);
-  document.body.appendChild(div);
+	// Draw canvas
+	var canvas = document.createElement('canvas');
+	canvas.width = CANVAS_WIDTH;
+	canvas.height = CANVAS_HEIGHT;
 
-  // Create the button
-  var button = document.createElement("button");
-  button.innerHTML = "See path!";
-  button.disabled = true;
-  document.body.appendChild(button);
+	// Place the canvas inside a div so we can center it
+	var div = document.createElement("div");
+	div.style.textAlign = "center";
+	div.appendChild(canvas);
+	document.body.appendChild(div);
 
-  // Set canvas properties
-  var ctx = canvas.getContext("2d");
-  ctx.fillStyle = "black";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+	// Create the button
+	var button = document.createElement("button");
+	button.innerHTML = "Anime path!";
+	button.disabled = true;
+	document.body.appendChild(button);
 
-  // Draw all nodes on canvas
-  for (var i = 0; i < dist.length; i++) {
-    drawNodeOnCanvas(ctx, dist[i], i == 0 ? "orange" : "white");
-  }
+	// Set canvas properties
+	var ctx = canvas.getContext("2d");
+	ctx.fillStyle = "black";
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Compute the shortest path
-  var bestPath = getShortestPath(ctx);
+	// Draw all nodes on canvas
+	for (var i = 0; i < dist.length; i++) {
+		drawNodeOnCanvas(ctx, dist[i], i == 0 ? "orange" : "white");
+	}
 
-  // Draw the path on canvas
-  drawPath(ctx, bestPath.key);
+	// Compute the shortest path
+	var bestPath = getShortestPath(ctx);
 
-  // Output
-  console.log("Shortest path distance: " + bestPath.distance);
-  console.log("Shortest path: " + bestPath.key.split("-").map(node => parseInt(node)+1).join(", "));
-  createText("Shortest path distance: " + bestPath.distance);
-  createText("Shortest path: " + bestPath.key.split("-").map(node => parseInt(node)+1).join(", "));
+	// Draw the path on canvas
+	drawPath(ctx, bestPath.key);
 
-  // Track time
-  var endTime = Date.now();
-  createText("Time spent: aprox. " + Math.round((endTime - startTime) / 10) / 100 + " sec (" + (endTime - startTime) + "ms)");
+	// Output
+	createText("Shortest path distance: " + bestPath.distance);
+	createText("Shortest path: " + bestPath.key.split("-").map(node => parseInt(node)+1).join(", "));
 
-  // Animate
-  button.disabled = false;
-  button.onclick = function() {
-    animateMap(ctx, bestPath.key, 0);
-  }
+	// Track time
+	var endTime = Date.now();
+	createText("Time spent: aprox. " + Math.round((endTime - startTime) / 10) / 100 + " sec (" + (endTime - startTime) + "ms)");
+
+	// Animate
+	button.disabled = false;
+	button.onclick = function() {
+		animateMap(ctx, bestPath.key, 0);
+	}
 }
 
 /**
@@ -226,7 +220,7 @@ function animateMap(ctx, path, i) {
   if (i < path.split("-").length * 3) {
     setTimeout(function() {
       animateMap(ctx, path, i);
-    }, 50);
+    }, 100);
   }
 }
 
