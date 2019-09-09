@@ -2,6 +2,16 @@
 <head>
 <title>Biddy's Traveling Adventures</title> 
 <style>
+#preload-01 { background: url(1.jpg) no-repeat -9999px -9999px; }
+#preload-02 { background: url(2.jpg) no-repeat -9999px -9999px; }
+#preload-03 { background: url(3.jpg) no-repeat -9999px -9999px; }
+#preload-04 { background: url(4.jpg) no-repeat -9999px -9999px; }
+#preload-05 { background: url(5.jpg) no-repeat -9999px -9999px; }
+#preload-06 { background: url(6.jpg) no-repeat -9999px -9999px; }
+#preload-07 { background: url(7.jpg) no-repeat -9999px -9999px; }
+#preload-08 { background: url(8.jpg) no-repeat -9999px -9999px; }
+#preload-09 { background: url(9.jpg) no-repeat -9999px -9999px; }
+#preload-10 { background: url(10.jpg) no-repeat -9999px -9999px; }
 body {
 	margin: 0;
 }
@@ -1185,11 +1195,31 @@ body {
     </div>
 
 <script type="text/javascript">
+	
+	var uniqueRandoms = [];
+	var numRandoms = 10;
+
+	function makeUniqueRandom() {
+    	// refill the array if needed
+	    if (!uniqueRandoms.length) {
+	        for (var i = 0; i < numRandoms; i++) {
+	            uniqueRandoms.push(i);
+	        }
+	    }
+	    var index = Math.floor(Math.random() * uniqueRandoms.length);
+	    var val = uniqueRandoms[index];
+
+	    // now remove that value from the array
+	    uniqueRandoms.splice(index, 1);
+
+	    return val;
+
+	}
+	
 	var myFunction = function() {
 		var counter = 0;
 		var i = setInterval(function(){
 		    var images = [
-				"url('0.jpg')",
 				"url('1.jpg')",
 				"url('2.jpg')",
 				"url('3.jpg')",
@@ -1198,10 +1228,12 @@ body {
 			    "url('6.jpg')",
 			    "url('7.jpg')",
 			    "url('8.jpg')",
-			    "url('9.jpg')"
+			    "url('9.jpg')",
+			    "url('10.jpg')"
 			];
-			var rnd = Math.floor(Math.random() * 10) + 0;
-			console.log(rnd);
+			
+			var rnd = makeUniqueRandom();
+			console.log('rnd', rnd);
 			var element = document.getElementsByClassName("full-screen");
 			element[0].style.backgroundImage = images[rnd];
 
