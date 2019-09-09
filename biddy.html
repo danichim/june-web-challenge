@@ -2,16 +2,6 @@
 <head>
 <title>Biddy's Traveling Adventures</title> 
 <style>
-#preload-01 { background: url(1.jpg) no-repeat -9999px -9999px; }
-#preload-02 { background: url(2.jpg) no-repeat -9999px -9999px; }
-#preload-03 { background: url(3.jpg) no-repeat -9999px -9999px; }
-#preload-04 { background: url(4.jpg) no-repeat -9999px -9999px; }
-#preload-05 { background: url(5.jpg) no-repeat -9999px -9999px; }
-#preload-06 { background: url(6.jpg) no-repeat -9999px -9999px; }
-#preload-07 { background: url(7.jpg) no-repeat -9999px -9999px; }
-#preload-08 { background: url(8.jpg) no-repeat -9999px -9999px; }
-#preload-09 { background: url(9.jpg) no-repeat -9999px -9999px; }
-#preload-10 { background: url(10.jpg) no-repeat -9999px -9999px; }
 body {
 	margin: 0;
 }
@@ -41,6 +31,7 @@ body {
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
+	transition: background 2s linear;
 }
 
 .wrap {
@@ -618,7 +609,10 @@ body {
   }
 }
 
-
+body::after{
+   position:absolute; width:0; height:0; overflow:hidden; z-index:-1; // hide images
+   content:url(1.jpg) url(2.jpg) url(3.jpg) url(4.jpg) url(5.jpg) url(6.jpg) url(7.jpg) url(8.jpg) url(9.jpg) url(10.jpg);   // load images
+}
 </style>
 </head>
 <body onload="myFunction()">
@@ -1215,11 +1209,31 @@ body {
 	    return val;
 
 	}
-	
+
+	var images = new Array()
+	function preloadImgs() {
+		for (i = 0; i < preloadImgs.arguments.length; i++) {
+			images[i] = new Image()
+			images[i].src = preloadImgs.arguments[i]
+		}
+	}
+	preloadImgs(
+		"1.jpg",
+		"2.jpg",
+		"3.jpg",
+		"4.jpg",
+		"5.jpg",
+		"6.jpg",
+		"7.jpg",
+		"8.jpg",
+		"9.jpg",
+		"10.jpg"
+	);
+
 	var myFunction = function() {
 		var counter = 0;
 		var i = setInterval(function(){
-		    var images = [
+		    var imagesUrls = [
 				"url('1.jpg')",
 				"url('2.jpg')",
 				"url('3.jpg')",
@@ -1235,7 +1249,7 @@ body {
 			var rnd = makeUniqueRandom();
 			console.log('rnd', rnd);
 			var element = document.getElementsByClassName("full-screen");
-			element[0].style.backgroundImage = images[rnd];
+			element[0].style.backgroundImage = imagesUrls[rnd];
 
 		    counter++;
 		    if(counter === 10) {
