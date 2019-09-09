@@ -23,7 +23,7 @@ body {
   
 }
 .full-screen.bg {
-	background: url('0.jpg');
+	background: url('6.jpg');
 	background-attachment: fixed;
     background-repeat: no-repeat;
 	background-position: center center;
@@ -1192,9 +1192,15 @@ body {
 				"url('0.jpg')",
 				"url('1.jpg')",
 				"url('2.jpg')",
-				"url('3.jpg')"
+				"url('3.jpg')",
+			    "url('4.jpg')",
+			    "url('5.jpg')",
+			    "url('6.jpg')",
+			    "url('7.jpg')",
+			    "url('8.jpg')",
+			    "url('9.jpg')"
 			];
-			var rnd = Math.floor(Math.random() * 4) + 0;
+			var rnd = Math.floor(Math.random() * 10) + 0;
 			console.log(rnd);
 			var element = document.getElementsByClassName("full-screen");
 			element[0].style.backgroundImage = images[rnd];
